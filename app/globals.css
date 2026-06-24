@@ -46,6 +46,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-y: auto;
 }
 
 body {
@@ -53,6 +54,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-azeret-mono), ui-monospace, monospace;
   min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 ::selection {
