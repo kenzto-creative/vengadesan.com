@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Vengat R. — Portfolio
 
 Production-ready personal portfolio built from the [Saphal AI Figma design](https://www.figma.com/design/vdLoLVNlxjnxhRNfIoreVF/Saphal-AI), implementing the bento-grid home layout and inner pages (About, Stack, Projects, Tutorials, Contact).
@@ -116,3 +117,6 @@ vercel
 ## License
 
 Private portfolio — all rights reserved.
+=======
+# vengadesan.com
+>>>>>>> 71f7c660dbe71b174ee48fe48078d431e7c6c27d
