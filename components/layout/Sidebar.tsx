@@ -12,9 +12,10 @@ import { cn } from "@/lib/utils";
 
 type SidebarProps = {
   className?: string;
+  compact?: boolean;
 };
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, compact = false }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -26,8 +27,18 @@ export function Sidebar({ className }: SidebarProps) {
   }, [mobileOpen]);
 
   const content = (
-    <div className="flex h-full flex-col justify-between gap-16">
-      <div className="flex flex-col gap-[103px]">
+    <div
+      className={cn(
+        "flex h-full flex-col justify-between",
+        compact ? "gap-8 lg:gap-10" : "gap-16"
+      )}
+    >
+      <div
+        className={cn(
+          "flex flex-col",
+          compact ? "gap-8 lg:gap-10" : "gap-[103px]"
+        )}
+      >
         <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
           <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[52px]">
             <Image
@@ -50,7 +61,12 @@ export function Sidebar({ className }: SidebarProps) {
         </Link>
 
         <nav aria-label="Main navigation">
-          <ul className="flex flex-col gap-16 pl-6">
+          <ul
+            className={cn(
+              "flex flex-col pl-6",
+              compact ? "gap-8 lg:gap-10" : "gap-16"
+            )}
+          >
             {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
               const isActive = pathname === href;
               return (
@@ -75,8 +91,8 @@ export function Sidebar({ className }: SidebarProps) {
         </nav>
       </div>
 
-      <div className="flex flex-col gap-[46px]">
-        <div className="flex flex-col gap-[45px]">
+      <div className={cn("flex flex-col", compact ? "gap-8 lg:gap-10" : "gap-[46px]")}>
+        <div className={cn("flex flex-col", compact ? "gap-6 lg:gap-8" : "gap-[45px]")}>
           <Link
             href={SITE.cvUrl}
             aria-label="View CV"
@@ -116,6 +132,7 @@ export function Sidebar({ className }: SidebarProps) {
       <aside
         className={cn(
           "hidden w-[294px] shrink-0 lg:block",
+          compact && "lg:h-full lg:overflow-hidden",
           className
         )}
       >

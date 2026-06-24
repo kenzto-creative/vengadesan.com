@@ -18,11 +18,11 @@ export function StatsCard({ className, delay = 0.25 }: StatsCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
       className={cn(
-        "relative flex min-h-[240px] flex-col items-center justify-center overflow-hidden rounded-[36px] bg-card px-6 py-8 sm:min-h-[277px]",
+        "relative flex h-full min-h-[240px] flex-col items-center justify-center overflow-hidden rounded-[36px] bg-card px-6 py-6 sm:min-h-[277px] lg:min-h-0 lg:py-4",
         className
       )}
     >
-      <div className="mb-6 flex items-center gap-0.5" aria-label="5 star rating">
+      <div className="mb-4 flex items-center gap-0.5 lg:mb-3" aria-label="5 star rating">
         {Array.from({ length: 5 }).map((_, i) => (
           <Star
             key={i}
@@ -32,8 +32,8 @@ export function StatsCard({ className, delay = 0.25 }: StatsCardProps) {
         ))}
       </div>
 
-      <div className="mb-8 text-center">
-        <p className="font-mono text-[28px] leading-[33.6px] text-white">100%</p>
+      <div className="mb-4 text-center lg:mb-3">
+        <p className="font-mono text-[28px] leading-[33.6px] text-white lg:text-2xl">100%</p>
         <p className="mt-1 font-mono text-xs font-light tracking-[0.1em] text-white">
           Happy Companies
         </p>

@@ -25,11 +25,11 @@ export function ShowcaseCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className={cn("relative", className)}
+      className={cn("relative h-full min-h-0", className)}
     >
       <Link
         href={href}
-        className="group relative block h-full min-h-[360px] overflow-hidden rounded-[36px] bg-card sm:min-h-[420px] lg:min-h-[477px]"
+        className="group relative block h-full min-h-[360px] overflow-hidden rounded-[36px] bg-card sm:min-h-[420px] lg:min-h-0"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         aria-label="View Master in Design showcase"
@@ -39,7 +39,7 @@ export function ShowcaseCard({
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="absolute inset-3 overflow-hidden rounded-t-[24px]"
         >
-          <div className="relative h-full min-h-[280px] w-full lg:min-h-[420px]">
+          <div className="relative h-full min-h-[200px] w-full lg:min-h-0">
             <Image
               src="/images/showcase-76bdb7.png"
               alt="Master in Design project preview"

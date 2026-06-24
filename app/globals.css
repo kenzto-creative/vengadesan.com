@@ -46,7 +46,6 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-y: auto;
 }
 
 body {
@@ -54,8 +53,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-azeret-mono), ui-monospace, monospace;
   min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 ::selection {
@@ -71,7 +68,16 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.light .bg-header {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+html.home-no-scroll,
+html.home-no-scroll body {
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  html.home-no-scroll,
+  html.home-no-scroll body {
+    height: auto;
+    overflow: auto;
+  }
 }

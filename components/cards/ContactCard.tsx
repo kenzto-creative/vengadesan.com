@@ -37,11 +37,11 @@ export function ContactCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className={cn("relative", className)}
+      className={cn("relative h-full min-h-0", className)}
     >
       <Link
         href={href}
-        className="group relative flex h-full min-h-[240px] flex-col overflow-hidden rounded-[36px] bg-contact-yellow sm:min-h-[277px]"
+        className="group relative flex h-full min-h-[240px] flex-col overflow-hidden rounded-[36px] bg-contact-yellow sm:min-h-[277px] lg:min-h-0"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         aria-label="Go to contact section"

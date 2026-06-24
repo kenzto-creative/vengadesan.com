@@ -26,11 +26,11 @@ export function ProjectCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className={cn("relative", className)}
+      className={cn("relative h-full min-h-0", className)}
     >
       <Link
         href={href}
-        className="group relative block h-full min-h-[320px] overflow-hidden rounded-[36px] bg-mine-shaft sm:min-h-[400px] lg:min-h-[473px]"
+        className="group relative block h-full min-h-[320px] overflow-hidden rounded-[36px] bg-mine-shaft sm:min-h-[400px] lg:min-h-0"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         aria-label="View my projects"

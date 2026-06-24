@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { cn } from "@/lib/utils";
@@ -9,11 +9,30 @@ import { cn } from "@/lib/utils";
 type MainLayoutProps = {
   children: ReactNode;
   className?: string;
+  fitViewport?: boolean;
 };
 
-export function MainLayout({ children, className }: MainLayoutProps) {
+export function MainLayout({
+  children,
+  className,
+  fitViewport = false,
+}: MainLayoutProps) {
+  useEffect(() => {
+    if (!fitViewport) return;
+
+    document.documentElement.classList.add("home-no-scroll");
+    return () => {
+      document.documentElement.classList.remove("home-no-scroll");
+    };
+  }, [fitViewport]);
+
   return (
-    <div className="relative bg-background text-foreground">
+    <div
+      className={cn(
+        "relative bg-background text-foreground",
+        fitViewport ? "min-h-screen lg:h-dvh lg:overflow-hidden" : "min-h-screen"
+      )}
+    >
       <div
         className="pointer-events-none fixed inset-0 opacity-20"
         aria-hidden
@@ -23,23 +42,29 @@ export function MainLayout({ children, className }: MainLayoutProps) {
         }}
       />
 
-      <div className="relative mx-auto max-w-[1920px] px-4 py-6 sm:px-6 lg:px-12 lg:py-12">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12 xl:gap-16">
-          <Sidebar className="lg:sticky lg:top-12 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto" />
+      <div
+        className={cn(
+          "relative mx-auto flex max-w-[1920px] gap-8 px-4 py-6 sm:px-6 lg:gap-12 lg:px-12 xl:gap-16",
+          fitViewport
+            ? "min-h-screen lg:h-full lg:overflow-hidden lg:py-8"
+            : "min-h-screen lg:py-12"
+        )}
+      >
+        <Sidebar compact={fitViewport} />
 
-          <motion.main
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={cn(
-              "flex min-w-0 flex-1 flex-col gap-8 pb-12 lg:pb-16",
-              className
-            )}
-          >
-            <Header />
-            {children}
-          </motion.main>
-        </div>
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className={cn(
+            "flex min-w-0 flex-1 flex-col",
+            fitViewport ? "gap-4 lg:min-h-0 lg:overflow-hidden" : "gap-8",
+            className
+          )}
+        >
+          <Header className="shrink-0" />
+          {children}
+        </motion.main>
       </div>
     </div>
   );
