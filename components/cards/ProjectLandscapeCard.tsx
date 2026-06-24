@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowButton } from "@/components/ui/arrow-button";
 import type { ListingProject } from "@/lib/content";
-import { cn } from "@/lib/utils";
 
 type ProjectLandscapeCardProps = {
   project: ListingProject;

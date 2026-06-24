@@ -51,7 +51,7 @@ export function FriendsFilterHeader({
       <button
         type="button"
         aria-haspopup="listbox"
-        aria-expanded={open}
+        aria-expanded={open ? "true" : "false"}
         onClick={() => setOpen((current) => !current)}
         className="flex h-12 w-full items-center justify-between rounded-[24px] border border-white/16 bg-white/10 px-6 font-mono text-base font-light tracking-[0.1em] text-foreground backdrop-blur-[2.5px] transition-colors hover:bg-white/15"
       >
@@ -71,7 +71,7 @@ export function FriendsFilterHeader({
           className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-full overflow-hidden rounded-[24px] border border-white/16 bg-[#121212] py-2 shadow-xl"
         >
           {FRIEND_FILTER_OPTIONS.map((option) => (
-            <li key={option} role="option" aria-selected={value === option}>
+            <li key={option} role="option" aria-selected={value === option ? "true" : "false"}>
               <button
                 type="button"
                 className={cn(

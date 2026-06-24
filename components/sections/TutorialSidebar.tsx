@@ -26,7 +26,7 @@ export function TutorialSidebar({ currentSlug, className }: TutorialSidebarProps
         Other Tutorials
       </h2>
 
-      {others.map((tutorial, index) => (
+      {others.map((tutorial) => (
         <Link
           key={tutorial.slug}
           href={`/tutorials/${tutorial.slug}`}

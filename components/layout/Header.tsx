@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { PanelRight, Box } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Box, PanelRight } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useNavigation } from "@/components/layout/NavigationContext";
 import { useClock } from "@/hooks/useClock";
@@ -11,16 +10,38 @@ import { cn } from "@/lib/utils";
 
 type HeaderProps = {
   className?: string;
+  megaMenuToggle?: boolean;
+  megaMenuVisible?: boolean;
 };
 
-export function Header({ className }: HeaderProps) {
+export function Header({
+  className,
+  megaMenuToggle = false,
+  megaMenuVisible = false,
+}: HeaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const { time, date, iso } = useClock();
   const {
     setMobileOpen,
     sidebarCollapsible,
     desktopSidebarOpen,
     setDesktopSidebarOpen,
+    setMegaMenuOpen,
   } = useNavigation();
+
+  function handleMegaMenuClick() {
+    if (megaMenuToggle && pathname === "/") {
+      setMegaMenuOpen(!megaMenuVisible);
+      router.replace("/", { scroll: false });
+      return;
+    }
+
+    setMegaMenuOpen(true);
+    if (pathname !== "/") {
+      router.push("/");
+    }
+  }
 
   return (
     <motion.header
@@ -37,7 +58,7 @@ export function Header({ className }: HeaderProps) {
           type="button"
           className="relative flex h-10 w-10 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5 dark:hover:bg-white/10 sm:h-12 sm:w-12"
           aria-label={desktopSidebarOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={desktopSidebarOpen}
+          aria-expanded={desktopSidebarOpen ? "true" : "false"}
           onClick={() => {
             if (window.matchMedia("(min-width: 1024px)").matches) {
               setDesktopSidebarOpen(!desktopSidebarOpen);
@@ -76,14 +97,21 @@ export function Header({ className }: HeaderProps) {
 
       <div className="flex items-center gap-4 sm:gap-[38px]">
         <ThemeToggle />
-        <Link
-          href="/menu"
-          className="relative flex h-10 w-10 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5 dark:hover:bg-white/10 sm:h-12 sm:w-12"
-          aria-label="Open mega menu"
+        <button
+          type="button"
+          onClick={handleMegaMenuClick}
+          aria-label={megaMenuVisible ? "Close mega menu" : "Open mega menu"}
+          {...(megaMenuToggle
+            ? { "aria-pressed": megaMenuVisible ? "true" : "false" }
+            : {})}
+          className={cn(
+            "relative flex h-10 w-10 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5 dark:hover:bg-white/10 sm:h-12 sm:w-12",
+            megaMenuToggle && megaMenuVisible && "bg-foreground/10 dark:bg-white/10"
+          )}
         >
           <span className="absolute inset-0 rounded-[36px] border border-foreground/20 dark:border-white/30" />
           <Box className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} />
-        </Link>
+        </button>
       </div>
     </motion.header>
   );

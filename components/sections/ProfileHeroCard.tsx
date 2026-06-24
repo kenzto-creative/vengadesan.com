@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { PROFILE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -33,7 +32,7 @@ export function ProfileHeroCard({
           <button
             type="button"
             aria-label={flipped ? "Show profile portrait" : "Flip profile card"}
-            aria-pressed={flipped}
+            aria-pressed={flipped ? "true" : "false"}
             onClick={() => setFlipped((value) => !value)}
             className="group relative h-full w-full rounded-[45px] [transform-style:preserve-3d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stack-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >

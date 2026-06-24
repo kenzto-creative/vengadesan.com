@@ -9,6 +9,9 @@ type NavigationContextValue = {
   setDesktopSidebarOpen: (open: boolean) => void;
   sidebarCollapsible: boolean;
   setSidebarCollapsible: (value: boolean) => void;
+  megaMenuOpen: boolean;
+  setMegaMenuOpen: (open: boolean) => void;
+  toggleMegaMenu: () => void;
 };
 
 const NavigationContext = createContext<NavigationContextValue | null>(null);
@@ -17,6 +20,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [sidebarCollapsible, setSidebarCollapsible] = useState(false);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
 
   return (
     <NavigationContext.Provider
@@ -27,6 +31,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setDesktopSidebarOpen,
         sidebarCollapsible,
         setSidebarCollapsible,
+        megaMenuOpen,
+        setMegaMenuOpen,
+        toggleMegaMenu: () => setMegaMenuOpen((open) => !open),
       }}
     >
       {children}

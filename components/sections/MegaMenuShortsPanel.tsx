@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Play } from "lucide-react";
+import { useNavigation } from "@/components/layout/NavigationContext";
 import { MEGA_MENU_FEATURED, MEGA_MENU_SHORTS } from "@/lib/content";
 import { PROFILE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,8 @@ type MegaMenuShortsPanelProps = {
 };
 
 export function MegaMenuShortsPanel({ className }: MegaMenuShortsPanelProps) {
+  const { setMegaMenuOpen } = useNavigation();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -39,8 +42,17 @@ export function MegaMenuShortsPanel({ className }: MegaMenuShortsPanelProps) {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ViewAllButton href="/images" label="View All Images" />
-            <ViewAllButton href="/videos" label="View All Videos" primary />
+            <ViewAllButton
+              href="/images"
+              label="View All Images"
+              onNavigate={() => setMegaMenuOpen(false)}
+            />
+            <ViewAllButton
+              href="/videos"
+              label="View All Videos"
+              primary
+              onNavigate={() => setMegaMenuOpen(false)}
+            />
           </div>
         </div>
 
@@ -58,6 +70,7 @@ export function MegaMenuShortsPanel({ className }: MegaMenuShortsPanelProps) {
 
             <Link
               href="/videos"
+              onClick={() => setMegaMenuOpen(false)}
               className="group relative aspect-[701/394] overflow-hidden rounded-[36px] bg-black/20"
             >
               <Image
@@ -95,6 +108,7 @@ export function MegaMenuShortsPanel({ className }: MegaMenuShortsPanelProps) {
               >
                 <Link
                   href={item.href}
+                  onClick={() => setMegaMenuOpen(false)}
                   className="group relative block aspect-[319/285] overflow-hidden rounded-[36px] bg-card"
                 >
                   <Image
@@ -121,14 +135,17 @@ function ViewAllButton({
   href,
   label,
   primary = false,
+  onNavigate,
 }: {
   href: string;
   label: string;
   primary?: boolean;
+  onNavigate?: () => void;
 }) {
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={cn(
         "group inline-flex h-12 min-w-[220px] items-center justify-between rounded-[36px] px-5 font-mono text-base font-light tracking-[0.1em] transition-colors",
         primary

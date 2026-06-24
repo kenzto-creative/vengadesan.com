@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { VideoGridCard } from "@/components/cards/VideoGridCard";
 import { MediaLayout } from "@/components/layout/MediaLayout";
 import {
@@ -35,9 +35,15 @@ export default function VideosPage() {
   const visibleVideos = filteredVideos.slice(0, visibleCount);
   const canLoadMore = visibleCount < filteredVideos.length;
 
-  useEffect(() => {
+  function handleCategoryChange(value: VideoFilterOption) {
+    setCategoryFilter(value);
     setVisibleCount(INITIAL_VISIBLE);
-  }, [categoryFilter, formatFilter]);
+  }
+
+  function handleFormatChange(value: VideoFormat) {
+    setFormatFilter(value);
+    setVisibleCount(INITIAL_VISIBLE);
+  }
 
   return (
     <MediaLayout activeTab="videos">
@@ -49,9 +55,9 @@ export default function VideosPage() {
       >
         <VideoListingHeader
           categoryFilter={categoryFilter}
-          onCategoryChange={setCategoryFilter}
+          onCategoryChange={handleCategoryChange}
           formatFilter={formatFilter}
-          onFormatChange={setFormatFilter}
+          onFormatChange={handleFormatChange}
         />
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-10">

@@ -48,7 +48,7 @@ export function TutorialFilterChips({
       <button
         type="button"
         aria-haspopup="listbox"
-        aria-expanded={open}
+        aria-expanded={open ? "true" : "false"}
         aria-label="Filter tutorials by category"
         onClick={() => setOpen((current) => !current)}
         className="flex h-12 min-w-[120px] items-center justify-between gap-6 rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
@@ -76,7 +76,7 @@ export function TutorialFilterChips({
           {TUTORIAL_FILTER_OPTIONS.map((option) => {
             const selected = option === value;
             return (
-              <li key={option} role="option" aria-selected={selected}>
+              <li key={option} role="option" aria-selected={selected ? "true" : "false"}>
                 <button
                   type="button"
                   onClick={() => {

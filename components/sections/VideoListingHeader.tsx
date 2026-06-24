@@ -78,7 +78,7 @@ export function VideoListingHeader({
                     ? "bg-foreground text-background dark:bg-white dark:text-[#121212]"
                     : "text-foreground/70 hover:text-foreground"
                 )}
-                aria-pressed={active}
+                aria-pressed={active ? "true" : "false"}
               >
                 {format}
               </button>
@@ -90,7 +90,7 @@ export function VideoListingHeader({
           <button
             type="button"
             aria-haspopup="listbox"
-            aria-expanded={open}
+            aria-expanded={open ? "true" : "false"}
             aria-label="Filter videos by category"
             onClick={() => setOpen((current) => !current)}
             className="flex h-12 w-full min-w-0 items-center justify-between rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] sm:min-w-[280px]"
@@ -118,7 +118,7 @@ export function VideoListingHeader({
               {VIDEO_FILTER_OPTIONS.map((option) => {
                 const selected = option === categoryFilter;
                 return (
-                  <li key={option} role="option" aria-selected={selected}>
+                  <li key={option} role="option" aria-selected={selected ? "true" : "false"}>
                     <button
                       type="button"
                       onClick={() => {

@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Play } from "lucide-react";
 import { ArrowButton } from "@/components/ui/arrow-button";
 import type { TutorialListingItem } from "@/lib/content";
-import { cn } from "@/lib/utils";
 
 type TutorialLandscapeCardProps = {
   tutorial: TutorialListingItem;

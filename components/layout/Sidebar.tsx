@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FileText, LayoutGrid, X } from "lucide-react";
 import { useEffect } from "react";
 import { NAV_ITEMS, SITE } from "@/lib/constants";
@@ -18,9 +18,33 @@ type SidebarProps = {
 
 export function Sidebar({ className, compact = false }: SidebarProps) {
   const pathname = usePathname();
-  const { mobileOpen, setMobileOpen, sidebarCollapsible, desktopSidebarOpen } =
-    useNavigation();
+  const router = useRouter();
+  const {
+    mobileOpen,
+    setMobileOpen,
+    sidebarCollapsible,
+    desktopSidebarOpen,
+    megaMenuOpen,
+    setMegaMenuOpen,
+    toggleMegaMenu,
+  } = useNavigation();
   const showCollapsedDesktop = sidebarCollapsible && !desktopSidebarOpen;
+  const isMegaMenuActive = megaMenuOpen && pathname === "/";
+
+  function handleMegaMenuOpen() {
+    if (pathname === "/") {
+      toggleMegaMenu();
+      return;
+    }
+
+    setMegaMenuOpen(true);
+    router.push("/");
+  }
+
+  function handleNavClick() {
+    setMobileOpen(false);
+    setMegaMenuOpen(false);
+  }
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -60,7 +84,7 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
           </Link>
           <Link
             href="/"
-            onClick={() => setMobileOpen(false)}
+            onClick={handleNavClick}
             className="flex flex-col gap-0.5 py-1.5"
           >
             <span className="font-mono text-2xl font-normal leading-tight tracking-[0.1em] text-foreground sm:text-[32px] sm:leading-[38.4px]">
@@ -80,13 +104,12 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
             )}
           >
             {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
-              const isMegaMenu = pathname === "/menu";
-              const isActive = isMegaMenu ? href === "/" : pathname === href;
+              const isActive = isMegaMenuActive ? href === "/" : pathname === href;
               return (
                 <li key={href}>
                   <Link
                     href={href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={handleNavClick}
                     className={cn(
                       "group flex items-center gap-[27px] font-mono text-base font-light tracking-[0.1em] transition-opacity duration-300",
                       isActive
@@ -152,14 +175,14 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
         <nav aria-label="Collapsed navigation">
           <ul className="flex flex-col items-center gap-6">
             {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
-              const isMegaMenu = pathname === "/menu";
-              const isActive = isMegaMenu ? href === "/" : pathname === href;
+              const isActive = isMegaMenuActive ? href === "/" : pathname === href;
 
               return (
                 <li key={href}>
                   <Link
                     href={href}
                     aria-label={label}
+                    onClick={handleNavClick}
                     className={cn(
                       "flex h-10 w-10 items-center justify-center transition-opacity",
                       isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
@@ -182,14 +205,19 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
         >
           <FileText className="h-6 w-6" strokeWidth={1.5} />
         </Link>
-        <Link
-          href="/menu"
-          aria-label="Open mega menu"
-          className="relative flex h-12 w-12 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5"
+        <button
+          type="button"
+          onClick={handleMegaMenuOpen}
+          aria-label={isMegaMenuActive ? "Close mega menu" : "Open mega menu"}
+          aria-pressed={isMegaMenuActive ? "true" : "false"}
+          className={cn(
+            "relative flex h-12 w-12 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5",
+            isMegaMenuActive && "bg-foreground/10 dark:bg-white/10"
+          )}
         >
           <span className="absolute inset-0 rounded-[36px] border border-foreground/30 dark:border-white/30" />
           <LayoutGrid className="h-6 w-6" strokeWidth={1.5} />
-        </Link>
+        </button>
       </div>
     </div>
   );
@@ -213,13 +241,13 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
         <nav aria-label="Tablet navigation">
           <ul className="flex flex-col items-center gap-6">
             {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
-              const isMegaMenu = pathname === "/menu";
-              const isActive = isMegaMenu ? href === "/" : pathname === href;
+              const isActive = isMegaMenuActive ? href === "/" : pathname === href;
               return (
                 <li key={href}>
                   <Link
                     href={href}
                     aria-label={label}
+                    onClick={handleNavClick}
                     className={cn(
                       "flex h-10 w-10 items-center justify-center rounded-full transition-opacity",
                       isActive ? "opacity-100" : "opacity-50 hover:opacity-80"

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ImageGridCard } from "@/components/cards/ImageGridCard";
 import { MediaLayout } from "@/components/layout/MediaLayout";
 import { ImageFilterChips } from "@/components/sections/ImageFilterChips";
@@ -26,9 +26,10 @@ export default function ImagesPage() {
   const visibleImages = filteredImages.slice(0, visibleCount);
   const canLoadMore = visibleCount < filteredImages.length;
 
-  useEffect(() => {
+  function handleFilterChange(value: ImageFilterOption) {
+    setActiveFilter(value);
     setVisibleCount(INITIAL_VISIBLE);
-  }, [activeFilter]);
+  }
 
   return (
     <MediaLayout activeTab="images">
@@ -45,7 +46,7 @@ export default function ImagesPage() {
 
           <ImageFilterChips
             value={activeFilter}
-            onChange={setActiveFilter}
+            onChange={handleFilterChange}
             className="w-full sm:ml-auto sm:w-auto"
           />
         </header>
