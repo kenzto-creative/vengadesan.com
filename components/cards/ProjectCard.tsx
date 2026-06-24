@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowButton } from "@/components/ui/arrow-button";
-import { PROJECT_IMAGES } from "@/lib/constants";
+import { HOME_PROJECT_TILES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -30,31 +30,33 @@ export function ProjectCard({
     >
       <Link
         href={href}
-        className="group relative block h-full min-h-[320px] overflow-hidden rounded-[36px] bg-mine-shaft sm:min-h-[400px] lg:min-h-0"
+        className="group relative block h-full min-h-[320px] overflow-hidden rounded-[36px] bg-project-surface sm:min-h-[400px] lg:min-h-0 dark:bg-mine-shaft"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         aria-label="View my projects"
       >
         <motion.div
-          animate={{ scale: hovered ? 1.03 : 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          animate={{ scale: hovered ? 1.02 : 1, y: hovered ? -8 : 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <div
-            className="absolute inset-0 grid grid-cols-3 gap-0"
-            aria-hidden
-          >
-            {PROJECT_IMAGES.map((src) => (
-              <div key={src} className="relative aspect-square overflow-hidden">
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 33vw, 250px"
-                />
-              </div>
-            ))}
+          <div className="absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-[-15%_-8%]">
+              {HOME_PROJECT_TILES.map((tile) => (
+                <div
+                  key={tile.alt}
+                  className={cn("absolute overflow-hidden", tile.style)}
+                >
+                  <Image
+                    src={tile.src}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="250px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div
             className="absolute inset-0"
@@ -65,7 +67,7 @@ export function ProjectCard({
           />
         </motion.div>
 
-        <h2 className="absolute bottom-8 left-8 z-10 font-mono text-[28px] leading-[33.6px] text-white">
+        <h2 className="absolute bottom-8 left-8 z-10 font-mono text-[28px] leading-[33.6px] text-on-dark">
           My Projects
         </h2>
 

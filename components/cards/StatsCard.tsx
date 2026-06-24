@@ -18,7 +18,7 @@ export function StatsCard({ className, delay = 0.25 }: StatsCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
       className={cn(
-        "relative flex h-full min-h-[240px] flex-col items-center justify-center overflow-hidden rounded-[36px] bg-card px-6 py-6 sm:min-h-[277px] lg:min-h-0 lg:py-4",
+        "relative flex h-full min-h-[240px] flex-col items-center justify-center overflow-hidden rounded-[36px] bg-mine-shaft px-6 py-6 sm:min-h-[277px] lg:min-h-0 lg:max-w-[280px] lg:py-4 dark:bg-card",
         className
       )}
     >
@@ -26,15 +26,15 @@ export function StatsCard({ className, delay = 0.25 }: StatsCardProps) {
         {Array.from({ length: 5 }).map((_, i) => (
           <Star
             key={i}
-            className="h-[18px] w-[18px] fill-white text-white"
+            className="h-[18px] w-[18px] fill-foreground text-foreground"
             strokeWidth={0}
           />
         ))}
       </div>
 
       <div className="mb-4 text-center lg:mb-3">
-        <p className="font-mono text-[28px] leading-[33.6px] text-white lg:text-2xl">100%</p>
-        <p className="mt-1 font-mono text-xs font-light tracking-[0.1em] text-white">
+        <p className="font-mono text-[28px] leading-[33.6px] lg:text-[28px]">100%</p>
+        <p className="mt-1 font-mono text-xs font-light tracking-[0.1em] text-foreground">
           Happy Companies
         </p>
       </div>

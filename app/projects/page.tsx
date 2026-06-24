@@ -1,86 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ProjectLandscapeCard } from "@/components/cards/ProjectLandscapeCard";
 import { MainLayout } from "@/components/layout/MainLayout";
-import { PROJECT_IMAGES } from "@/lib/constants";
-
-const projects = [
-  { title: "Charmant Framer Website", category: "Web Design", image: PROJECT_IMAGES[0] },
-  { title: "+XZERO® Screen", category: "Agency Template", image: PROJECT_IMAGES[3] },
-  { title: "DesignCube Framer Website", category: "Web Design", image: PROJECT_IMAGES[6] },
-  { title: "HealthWell Website", category: "Healthcare", image: PROJECT_IMAGES[7] },
-  { title: "Predict Screen", category: "SaaS", image: PROJECT_IMAGES[1] },
-  { title: "Huggl 2.0", category: "Product", image: PROJECT_IMAGES[2] },
-];
+import { BottomBentoRow } from "@/components/sections/BottomBentoRow";
+import { ProjectFilterChips } from "@/components/sections/ProjectFilterChips";
+import { ProjectsListingSidebar } from "@/components/sections/ProjectsListingSidebar";
+import { PROJECT_LISTING_SECTIONS } from "@/lib/content";
+import type { ProjectFilterOption } from "@/lib/project-images";
 
 export default function ProjectsPage() {
+  const [activeFilter, setActiveFilter] = useState<ProjectFilterOption>("All");
+
+  const visibleSections = useMemo(() => {
+    if (activeFilter === "All") return PROJECT_LISTING_SECTIONS;
+    return PROJECT_LISTING_SECTIONS.filter(
+      (section) => section.title === activeFilter
+    );
+  }, [activeFilter]);
+
   return (
     <MainLayout>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col gap-8"
+        className="flex flex-col gap-8 pb-8 xl:gap-10"
       >
-        <header className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-mono text-4xl tracking-[0.05em] md:text-5xl">
-              My Projects
-            </h1>
-            <p className="mt-4 font-mono text-sm font-light text-muted-foreground">
-              Selected work across web, product, and brand design.
-            </p>
-          </div>
-          <div className="rounded-[36px] bg-card px-8 py-6 text-center">
-            <p className="font-mono text-3xl">12</p>
-            <p className="font-mono text-xs font-light tracking-[0.18em] text-muted-foreground">
-              Total Projects
-            </p>
-          </div>
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="font-mono text-[32px] leading-[38.4px] tracking-[0.05em]">
+            My Projects
+          </h1>
+
+          <ProjectFilterChips value={activeFilter} onChange={setActiveFilter} />
         </header>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.06 }}
-            >
-              <Link
-                href="/projects"
-                className="group relative block overflow-hidden rounded-[36px] bg-mine-shaft"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-6">
-                  <div>
-                    <p className="font-mono text-xs tracking-[0.1em] text-white/60">
-                      {project.category}
-                    </p>
-                    <h2 className="mt-1 font-mono text-lg text-white">
-                      {project.title}
-                    </h2>
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-10">
+          <div className="flex flex-col gap-10">
+            {visibleSections.length > 0 ? (
+              visibleSections.map((section, sectionIndex) => (
+                <section
+                  key={section.title}
+                  aria-labelledby={`section-${sectionIndex}`}
+                  className="flex flex-col gap-4"
+                >
+                  <h2
+                    id={`section-${sectionIndex}`}
+                    className="font-mono text-lg leading-[25.2px] text-foreground"
+                  >
+                    {section.title}
+                  </h2>
+                  <div className="flex flex-col gap-3">
+                    {section.projects.map((project, index) => (
+                      <ProjectLandscapeCard
+                        key={`${section.title}-${project.title}`}
+                        project={project}
+                        index={sectionIndex + index}
+                      />
+                    ))}
                   </div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white opacity-0 transition-opacity group-hover:opacity-100">
-                    <ArrowUpRight className="h-5 w-5 text-[#121212]" />
-                  </div>
-                </div>
-              </Link>
-            </motion.article>
-          ))}
+                </section>
+              ))
+            ) : (
+              <p className="font-mono text-sm font-light tracking-[0.1em] text-muted-foreground">
+                No projects found in this category.
+              </p>
+            )}
+          </div>
+
+          <ProjectsListingSidebar className="xl:sticky xl:top-8 xl:self-start" />
         </div>
+
+        <BottomBentoRow variant="projects" className="min-h-[280px]" />
       </motion.div>
     </MainLayout>
   );

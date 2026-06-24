@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowButton } from "@/components/ui/arrow-button";
@@ -46,14 +47,34 @@ export function ContactCard({
         onMouseLeave={() => setHovered(false)}
         aria-label="Go to contact section"
       >
-        <h3 className="relative z-10 p-6 font-mono text-lg leading-[25.2px] text-white">
+        <h3 className="relative z-10 p-6 font-mono text-lg leading-[25.2px] text-on-dark">
           Contact
         </h3>
 
         <div className="relative flex flex-1 items-center justify-center overflow-hidden px-4 pb-6">
-          <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full bg-black/10 sm:h-[175px] sm:w-[175px]">
-            <Globe className="h-full w-full" />
-          </div>
+          <motion.div
+            animate={{ scale: hovered ? 1.04 : 1 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="relative h-[160px] w-[160px] overflow-hidden rounded-full sm:h-[175px] sm:w-[175px]"
+          >
+            <div className="absolute inset-0 hidden dark:block">
+              <Globe className="h-full w-full" />
+            </div>
+            <Image
+              src="/images/globe-74c0da.png"
+              alt=""
+              fill
+              className="object-cover dark:hidden"
+              sizes="175px"
+            />
+            <div
+              className="pointer-events-none absolute inset-0 rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 55%, rgba(247,163,7,0.35) 100%)",
+              }}
+            />
+          </motion.div>
         </div>
 
         <div className="absolute bottom-6 right-6 z-10">

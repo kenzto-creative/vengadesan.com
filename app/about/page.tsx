@@ -1,32 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { MainLayout } from "@/components/layout/MainLayout";
-
-const experiences = [
-  {
-    role: "Senior Product Designer",
-    company: "Kenzto Creative Solutions",
-    period: "2022 — Present",
-    description:
-      "Leading product design for SaaS and agency clients, from discovery through high-fidelity prototypes and design systems.",
-  },
-  {
-    role: "UI/UX Designer",
-    company: "Freelance",
-    period: "2019 — 2022",
-    description:
-      "Designed and shipped Framer websites, mobile apps, and brand identities for startups and creative agencies.",
-  },
-];
-
-const education = [
-  {
-    degree: "Bachelor of Design",
-    school: "Design Institute",
-    period: "2015 — 2019",
-  },
-];
+import { BottomBentoRow } from "@/components/sections/BottomBentoRow";
+import { ExperienceStackCard } from "@/components/sections/ExperienceStackCard";
+import {
+  ABOUT_EDUCATION,
+  ABOUT_EXPERIENCE,
+  CERTIFICATES,
+  HOBBIES,
+  ROLES,
+} from "@/lib/content";
 
 export default function AboutPage() {
   return (
@@ -35,72 +21,83 @@ export default function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col gap-8"
+        className="flex flex-col gap-3 pb-8"
       >
         <header>
-          <h1 className="font-mono text-4xl tracking-[0.05em] md:text-5xl">
+          <h1 className="font-mono text-[32px] leading-[38.4px] tracking-[0.05em] md:text-[32px]">
             About Me
           </h1>
-          <p className="mt-4 max-w-2xl font-mono text-sm font-light leading-relaxed tracking-wide text-muted-foreground">
-            I&apos;m Vengat R., a product designer focused on crafting intuitive
-            digital experiences. I blend research, visual design, and prototyping
-            to build products people love.
-          </p>
         </header>
 
-        <div className="grid gap-3 lg:grid-cols-2">
-          <section
-            className="rounded-[36px] bg-card p-6 md:p-8"
-            aria-labelledby="experience-heading"
+        <div className="flex flex-col gap-3">
+          <ExperienceStackCard
+            title="Roles"
+            items={ROLES.map((role) => ({ title: role }))}
+          />
+          <ExperienceStackCard
+            title="Experience"
+            items={ABOUT_EXPERIENCE.map((item) => ({
+              title: item.title,
+              subtitle: item.subtitle,
+              active: item.active,
+            }))}
+            delay={0.05}
+          />
+          <ExperienceStackCard
+            title="Education"
+            items={ABOUT_EDUCATION.map((item) => ({
+              title: item.title,
+              subtitle: item.subtitle,
+              active: item.active,
+            }))}
+            delay={0.1}
+          />
+          <ExperienceStackCard
+            title="Hobbies"
+            items={HOBBIES.map((hobby) => ({ title: hobby }))}
+            delay={0.15}
+          />
+
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col gap-3"
+            aria-labelledby="certificates-heading"
           >
-            <h2
-              id="experience-heading"
-              className="mb-6 font-mono text-lg tracking-[0.1em]"
-            >
-              Experience
+            <h2 id="certificates-heading" className="font-mono text-lg tracking-[0.1em]">
+              Certificates
             </h2>
-            <div className="flex flex-col gap-8">
-              {experiences.map((item) => (
-                <article key={item.role} className="border-b border-white/10 pb-8 last:border-0 last:pb-0">
-                  <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="font-mono text-base">{item.role}</h3>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {item.period}
-                    </span>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {CERTIFICATES.map((certificate) => (
+                <article
+                  key={certificate.title}
+                  className="group overflow-hidden rounded-[36px] bg-card"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <Image
+                      src={certificate.image}
+                      alt={certificate.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 280px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-5">
+                      <h3 className="max-w-[80%] font-mono text-sm leading-snug text-white">
+                        {certificate.title}
+                      </h3>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white opacity-0 transition-opacity group-hover:opacity-100">
+                        <ArrowUpRight className="h-4 w-4 text-[#121212]" />
+                      </span>
+                    </div>
                   </div>
-                  <p className="mb-2 font-mono text-sm text-stack-blue">
-                    {item.company}
-                  </p>
-                  <p className="font-mono text-sm font-light leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
                 </article>
               ))}
             </div>
-          </section>
+          </motion.section>
 
-          <section
-            className="rounded-[36px] bg-card p-6 md:p-8"
-            aria-labelledby="education-heading"
-          >
-            <h2
-              id="education-heading"
-              className="mb-6 font-mono text-lg tracking-[0.1em]"
-            >
-              Education
-            </h2>
-            {education.map((item) => (
-              <article key={item.degree}>
-                <h3 className="font-mono text-base">{item.degree}</h3>
-                <p className="mt-1 font-mono text-sm text-stack-blue">
-                  {item.school}
-                </p>
-                <p className="mt-2 font-mono text-xs text-muted-foreground">
-                  {item.period}
-                </p>
-              </article>
-            ))}
-          </section>
+          <BottomBentoRow />
         </div>
       </motion.div>
     </MainLayout>

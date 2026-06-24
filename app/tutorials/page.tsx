@@ -2,116 +2,74 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { useMemo, useState } from "react";
+import { TutorialLandscapeCard } from "@/components/cards/TutorialLandscapeCard";
 import { MainLayout } from "@/components/layout/MainLayout";
-
-const tutorials = [
-  {
-    title: "Framer's Advanced Animation: A Masterclass in Dynamic Designs",
-    date: "Feb 7, 2024",
-    duration: "11:27",
-    gradient: "from-[#214ADE] to-[#4E5DE4]",
-  },
-  {
-    title: "Mastering Framer Basics: A Step-by-Step Guide for Beginners",
-    date: "Nov 1, 2023",
-    duration: "12:06",
-    gradient: "from-[#F7A307] to-[#FFB84D]",
-  },
-  {
-    title: "Responsive Layouts in Framer: From Mobile to Desktop",
-    date: "Aug 15, 2023",
-    duration: "9:42",
-    gradient: "from-[#8CFFB6] to-[#214ADE]",
-  },
-];
+import { BottomBentoRow } from "@/components/sections/BottomBentoRow";
+import { TutorialFilterChips } from "@/components/sections/TutorialFilterChips";
+import { TutorialsListingSidebar } from "@/components/sections/TutorialsListingSidebar";
+import { TUTORIAL_LISTING } from "@/lib/content";
+import type { TutorialFilterOption } from "@/lib/project-images";
 
 export default function TutorialsPage() {
+  const [activeFilter, setActiveFilter] = useState<TutorialFilterOption>("All");
+
+  const visibleTutorials = useMemo(() => {
+    if (activeFilter === "All") return TUTORIAL_LISTING;
+    return TUTORIAL_LISTING.filter(
+      (tutorial) => tutorial.category === activeFilter
+    );
+  }, [activeFilter]);
+
   return (
     <MainLayout>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col gap-8"
+        className="flex flex-col gap-8 pb-8 xl:gap-10"
       >
-        <header className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-mono text-4xl tracking-[0.05em] md:text-5xl">
-              Tutorials
-            </h1>
-            <p className="mt-4 font-mono text-sm font-light text-muted-foreground">
-              Design tips, Framer walkthroughs, and creative process breakdowns.
-            </p>
-          </div>
-          <div className="rounded-[36px] bg-card px-8 py-6 text-center">
-            <p className="font-mono text-3xl">8</p>
-            <p className="font-mono text-xs font-light tracking-[0.18em] text-muted-foreground">
-              Total Tutorials
-            </p>
-          </div>
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="font-mono text-[32px] leading-[38.4px] tracking-[0.05em]">
+            Tutorials
+          </h1>
+
+          <TutorialFilterChips value={activeFilter} onChange={setActiveFilter} />
         </header>
 
-        <div className="grid gap-3 lg:grid-cols-[1fr_410px]">
-          <div className="flex flex-col gap-3">
-            {tutorials.map((tutorial, index) => (
-              <motion.article
-                key={tutorial.title}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08 }}
-              >
-                <Link
-                  href="/tutorials"
-                  className="group flex flex-col overflow-hidden rounded-[36px] bg-card sm:flex-row"
-                >
-                  <div
-                    className={`relative flex h-40 shrink-0 items-center justify-center bg-gradient-to-br sm:h-auto sm:w-72 ${tutorial.gradient}`}
-                  >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-transform group-hover:scale-110">
-                      <Play className="h-5 w-5 fill-white text-white" />
-                    </div>
-                  </div>
-                  <div className="flex flex-1 flex-col justify-center p-6">
-                    <h2 className="font-mono text-lg leading-snug">{tutorial.title}</h2>
-                    <div className="mt-3 flex gap-4 font-mono text-sm text-muted-foreground">
-                      <time>{tutorial.date}</time>
-                      <span>{tutorial.duration}</span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.article>
-            ))}
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-10">
+          <div className="flex flex-col gap-6">
+            {visibleTutorials.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {visibleTutorials.map((tutorial, index) => (
+                  <TutorialLandscapeCard
+                    key={tutorial.slug}
+                    tutorial={tutorial}
+                    index={index}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="font-mono text-sm font-light tracking-[0.1em] text-muted-foreground">
+                No tutorials found in this category.
+              </p>
+            )}
+
+            <Link
+              href="/videos"
+              className="flex h-12 items-center justify-center rounded-[36px] bg-card px-6 transition-colors hover:bg-card/90"
+            >
+              <span className="font-mono text-base font-light tracking-[0.1em] text-foreground dark:text-white">
+                View All
+              </span>
+              <span className="sr-only"> videos</span>
+            </Link>
           </div>
 
-          <aside className="flex flex-col gap-3">
-            <h2 className="font-mono text-lg">Other Tutorials</h2>
-            {tutorials.slice(0, 2).map((tutorial) => (
-              <Link
-                key={`other-${tutorial.title}`}
-                href="/tutorials"
-                className="overflow-hidden rounded-[36px] bg-card p-4 transition-colors hover:bg-card/80"
-              >
-                <div
-                  className={`mb-4 h-24 rounded-[10px] bg-gradient-to-br ${tutorial.gradient}`}
-                />
-                <h3 className="font-mono text-sm leading-snug">{tutorial.title}</h3>
-                <p className="mt-2 font-mono text-xs text-muted-foreground">
-                  {tutorial.date}
-                </p>
-              </Link>
-            ))}
-            <Link
-              href="/tutorials"
-              className="flex items-center justify-center gap-3 rounded-[36px] bg-card px-4 py-3 font-mono text-sm font-light tracking-[0.1em] transition-colors hover:bg-card/80"
-            >
-              View All
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#121212]">
-                →
-              </span>
-            </Link>
-          </aside>
+          <TutorialsListingSidebar className="xl:sticky xl:top-8 xl:self-start" />
         </div>
+
+        <BottomBentoRow variant="tutorials" className="min-h-[280px]" />
       </motion.div>
     </MainLayout>
   );

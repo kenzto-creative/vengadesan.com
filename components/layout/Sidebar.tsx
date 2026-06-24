@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FileText, LayoutGrid, X } from "lucide-react";
+import { useEffect } from "react";
 import { NAV_ITEMS, SITE } from "@/lib/constants";
 import { SocialLinks } from "@/components/SocialLinks";
+import { useNavigation } from "@/components/layout/NavigationContext";
 import { cn } from "@/lib/utils";
 
 type SidebarProps = {
@@ -17,7 +18,9 @@ type SidebarProps = {
 
 export function Sidebar({ className, compact = false }: SidebarProps) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const { mobileOpen, setMobileOpen, sidebarCollapsible, desktopSidebarOpen } =
+    useNavigation();
+  const showCollapsedDesktop = sidebarCollapsible && !desktopSidebarOpen;
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -39,8 +42,13 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
           compact ? "gap-8 lg:gap-10" : "gap-[103px]"
         )}
       >
-        <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-          <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[52px]">
+        <div className="flex items-center gap-2">
+          <Link
+            href="/profile"
+            className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[52px] transition-opacity hover:opacity-90"
+            onClick={() => setMobileOpen(false)}
+            aria-label="View profile"
+          >
             <Image
               src="/images/profile.png"
               alt="Vengat R. profile photo"
@@ -49,16 +57,20 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
               sizes="72px"
               priority
             />
-          </div>
-          <div className="flex flex-col gap-0.5 py-1.5">
+          </Link>
+          <Link
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            className="flex flex-col gap-0.5 py-1.5"
+          >
             <span className="font-mono text-[32px] font-normal leading-[38.4px] tracking-[0.1em] text-foreground">
               {SITE.name}
             </span>
             <span className="font-mono text-sm leading-[19.6px] text-muted-foreground">
               {SITE.title.toUpperCase()}
             </span>
-          </div>
-        </Link>
+          </Link>
+        </div>
 
         <nav aria-label="Main navigation">
           <ul
@@ -68,7 +80,8 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
             )}
           >
             {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
-              const isActive = pathname === href;
+              const isMegaMenu = pathname === "/menu";
+              const isActive = isMegaMenu ? href === "/" : pathname === href;
               return (
                 <li key={href}>
                   <Link
@@ -108,7 +121,7 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
           <p className="flex items-center gap-3">
             <span>©</span>
             <span>Designed by</span>
-            <Link href="/" className="hover:text-foreground transition-colors">
+            <Link href="/" className="transition-colors hover:text-foreground">
               vengat
             </Link>
           </p>
@@ -118,20 +131,145 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
     </div>
   );
 
+  const collapsedDesktopRail = (
+    <div className="flex h-full flex-col items-center justify-between py-2">
+      <div className="flex flex-col items-center gap-10">
+        <Link
+          href="/profile"
+          className="relative h-[72px] w-[72px] overflow-hidden rounded-[52px] ring-2 ring-[#BFFFFD]/40 transition-opacity hover:opacity-90"
+          aria-label="View profile"
+        >
+          <Image
+            src="/images/profile.png"
+            alt="Vengat R. profile photo"
+            fill
+            className="object-cover"
+            sizes="72px"
+            priority
+          />
+        </Link>
+
+        <nav aria-label="Collapsed navigation">
+          <ul className="flex flex-col items-center gap-6">
+            {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
+              const isMegaMenu = pathname === "/menu";
+              const isActive = isMegaMenu ? href === "/" : pathname === href;
+
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    aria-label={label}
+                    className={cn(
+                      "flex h-10 w-10 items-center justify-center transition-opacity",
+                      isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
+                    )}
+                  >
+                    <Icon className="h-[26px] w-[26px]" strokeWidth={1.5} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+
+      <div className="flex flex-col items-center gap-6">
+        <Link
+          href={SITE.cvUrl}
+          aria-label="View CV"
+          className="relative flex h-12 w-12 items-center justify-center rounded-[36px] bg-white text-[#121212] transition-colors hover:bg-white/90"
+        >
+          <FileText className="h-6 w-6" strokeWidth={1.5} />
+        </Link>
+        <Link
+          href="/menu"
+          aria-label="Open mega menu"
+          className="relative flex h-12 w-12 items-center justify-center rounded-[36px] text-foreground transition-colors hover:bg-foreground/5"
+        >
+          <span className="absolute inset-0 rounded-[36px] border border-foreground/30 dark:border-white/30" />
+          <LayoutGrid className="h-6 w-6" strokeWidth={1.5} />
+        </Link>
+      </div>
+    </div>
+  );
+
+  const iconRail = (
+    <div className="flex h-full flex-col items-center justify-between py-2">
+      <div className="flex flex-col items-center gap-8">
+        <Link
+          href="/profile"
+          className="relative h-12 w-12 overflow-hidden rounded-[32px] transition-opacity hover:opacity-90"
+          aria-label="View profile"
+        >
+          <Image
+            src="/images/profile.png"
+            alt="Vengat R. profile photo"
+            fill
+            className="object-cover"
+            sizes="48px"
+          />
+        </Link>
+        <nav aria-label="Tablet navigation">
+          <ul className="flex flex-col items-center gap-6">
+            {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
+              const isMegaMenu = pathname === "/menu";
+              const isActive = isMegaMenu ? href === "/" : pathname === href;
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    aria-label={label}
+                    className={cn(
+                      "flex h-10 w-10 items-center justify-center rounded-full transition-opacity",
+                      isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
+                    )}
+                  >
+                    <Icon className="h-[22px] w-[22px]" strokeWidth={1.5} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+      <Link
+        href={SITE.cvUrl}
+        aria-label="View CV"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#121212] transition-colors hover:bg-white/90"
+      >
+        <FileText className="h-5 w-5" />
+      </Link>
+    </div>
+  );
+
   return (
     <>
-      <button
-        type="button"
-        className="fixed left-4 top-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-card text-foreground lg:hidden"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open navigation menu"
+      <aside
+        className={cn(
+          "hidden w-[72px] shrink-0 md:block lg:hidden",
+          compact && "md:h-full",
+          className
+        )}
       >
-        <Menu className="h-6 w-6" />
-      </button>
+        {iconRail}
+      </aside>
+
+      <aside
+        className={cn(
+          "hidden w-[72px] shrink-0 lg:flex lg:flex-col",
+          !showCollapsedDesktop && "lg:hidden",
+          compact && "lg:h-full",
+          className
+        )}
+      >
+        {collapsedDesktopRail}
+      </aside>
 
       <aside
         className={cn(
           "hidden w-[294px] shrink-0 lg:block",
+          showCollapsedDesktop && "lg:hidden",
           compact && "lg:h-full lg:overflow-hidden",
           className
         )}
@@ -140,7 +278,7 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
       </aside>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 md:hidden">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -157,7 +295,7 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
           >
             <button
               type="button"
-              className="mb-8 flex h-10 w-10 items-center justify-center self-end rounded-full border border-white/20"
+              className="mb-8 flex h-10 w-10 items-center justify-center self-end rounded-full border border-foreground/20 dark:border-white/20"
               onClick={() => setMobileOpen(false)}
               aria-label="Close navigation menu"
             >

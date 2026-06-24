@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Azeret_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { NavigationProvider } from "@/components/layout/NavigationContext";
 import "./globals.css";
 
 const azeretMono = Azeret_Mono({
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={azeretMono.variable}>
       <body className="min-h-screen antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <NavigationProvider>{children}</NavigationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

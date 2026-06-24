@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowButton } from "@/components/ui/arrow-button";
+import { PROJECT_IMAGES } from "@/lib/project-images";
 import { cn } from "@/lib/utils";
 
 type ShowcaseCardProps = {
@@ -14,7 +15,7 @@ type ShowcaseCardProps = {
 };
 
 export function ShowcaseCard({
-  href = "/projects",
+  href = "/projects/xzero",
   className,
   delay = 0.15,
 }: ShowcaseCardProps) {
@@ -29,7 +30,7 @@ export function ShowcaseCard({
     >
       <Link
         href={href}
-        className="group relative block h-full min-h-[360px] overflow-hidden rounded-[36px] bg-card sm:min-h-[420px] lg:min-h-0"
+        className="group relative block h-full min-h-[360px] overflow-hidden rounded-[36px] bg-showcase-surface sm:min-h-[420px] lg:min-h-0 dark:bg-card"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         aria-label="View Master in Design showcase"
@@ -41,7 +42,7 @@ export function ShowcaseCard({
         >
           <div className="relative h-full min-h-[200px] w-full lg:min-h-0">
             <Image
-              src="/images/showcase-76bdb7.png"
+              src={PROJECT_IMAGES.showcase}
               alt="Master in Design project preview"
               fill
               className="object-cover object-top"
@@ -58,7 +59,7 @@ export function ShowcaseCard({
           </div>
         </motion.div>
 
-        <h2 className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center font-mono text-[28px] leading-[33.6px] text-white">
+        <h2 className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center font-mono text-[28px] leading-[33.6px] text-foreground dark:text-on-dark">
           Master in Design
         </h2>
 
