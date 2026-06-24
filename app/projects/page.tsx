@@ -51,7 +51,7 @@ export default function ProjectsPage() {
               transition={{ delay: index * 0.06 }}
             >
               <Link
-                href="#"
+                href="/projects"
                 className="group relative block overflow-hidden rounded-[36px] bg-mine-shaft"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">

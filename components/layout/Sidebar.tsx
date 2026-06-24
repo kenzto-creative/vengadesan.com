@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FileText, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NAV_ITEMS, SITE } from "@/lib/constants";
 import { SocialLinks } from "@/components/SocialLinks";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,13 @@ type SidebarProps = {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   const content = (
     <div className="flex h-full flex-col justify-between gap-16">
@@ -70,16 +77,15 @@ export function Sidebar({ className }: SidebarProps) {
 
       <div className="flex flex-col gap-[46px]">
         <div className="flex flex-col gap-[45px]">
-          <a
+          <Link
             href={SITE.cvUrl}
-            download
-            aria-label="Download CV"
+            aria-label="View CV"
             className="inline-flex h-12 w-[179px] items-center justify-center gap-4 rounded-[24px] bg-white px-6 font-mono text-base font-light tracking-[0.1em] text-[#121212] transition-colors hover:bg-white/90"
           >
             <FileText className="h-6 w-6" />
             View CV
-          </a>
-          <SocialLinks variant={pathname === "/about" ? "light" : "dark"} />
+          </Link>
+          <SocialLinks />
         </div>
 
         <div className="flex flex-col gap-5 font-mono text-base text-muted-foreground">

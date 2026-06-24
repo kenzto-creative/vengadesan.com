@@ -44,8 +44,8 @@ export function ProjectCard({
             className="absolute inset-0 grid grid-cols-3 gap-0"
             aria-hidden
           >
-            {PROJECT_IMAGES.map((src, i) => (
-              <div key={i} className="relative aspect-square overflow-hidden">
+            {PROJECT_IMAGES.map((src) => (
+              <div key={src} className="relative aspect-square overflow-hidden">
                 <Image
                   src={src}
                   alt=""

@@ -62,7 +62,7 @@ export default function TutorialsPage() {
                 transition={{ delay: index * 0.08 }}
               >
                 <Link
-                  href="#"
+                  href="/tutorials"
                   className="group flex flex-col overflow-hidden rounded-[36px] bg-card sm:flex-row"
                 >
                   <div
@@ -89,7 +89,7 @@ export default function TutorialsPage() {
             {tutorials.slice(0, 2).map((tutorial) => (
               <Link
                 key={`other-${tutorial.title}`}
-                href="#"
+                href="/tutorials"
                 className="overflow-hidden rounded-[36px] bg-card p-4 transition-colors hover:bg-card/80"
               >
                 <div
@@ -102,7 +102,7 @@ export default function TutorialsPage() {
               </Link>
             ))}
             <Link
-              href="#"
+              href="/tutorials"
               className="flex items-center justify-center gap-3 rounded-[36px] bg-card px-4 py-3 font-mono text-sm font-light tracking-[0.1em] transition-colors hover:bg-card/80"
             >
               View All

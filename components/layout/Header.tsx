@@ -12,7 +12,7 @@ type HeaderProps = {
 };
 
 export function Header({ className, onToggleSidebar }: HeaderProps) {
-  const { time, date } = useClock();
+  const { time, date, iso } = useClock();
 
   return (
     <motion.header
@@ -34,12 +34,15 @@ export function Header({ className, onToggleSidebar }: HeaderProps) {
       </button>
       <div className="h-6 w-6 lg:hidden" aria-hidden />
 
-      <div className="flex items-center gap-3 font-mono text-base text-foreground">
-        <time dateTime={time}>{time}</time>
+      <div
+        className="flex items-center gap-3 font-mono text-base text-foreground"
+        suppressHydrationWarning
+      >
+        <time dateTime={iso}>{time}</time>
         <span className="text-foreground/60" aria-hidden>
           ·
         </span>
-        <time>{date}</time>
+        <time dateTime={iso.split("T")[0]}>{date}</time>
       </div>
 
       <div className="flex items-center gap-[38px]">

@@ -12,7 +12,7 @@ export const SITE = {
   name: "VENGAT R.",
   title: "Product Designer",
   copyright: "Designed by vengat",
-  cvUrl: "/cv.pdf",
+  cvUrl: "/about",
 } as const;
 
 export type NavItem = {

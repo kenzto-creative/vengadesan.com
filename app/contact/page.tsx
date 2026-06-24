@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SocialLinks } from "@/components/SocialLinks";
+import { useId } from "react";
 
 export default function ContactPage() {
   return (
@@ -37,29 +38,40 @@ export default function ContactPage() {
             <div className="grid gap-10 md:grid-cols-2 md:gap-x-[70px]">
               <fieldset className="flex flex-col gap-10">
                 <legend className="sr-only">Personal information</legend>
-                <FormField label="Full Name*" defaultValue="Vengadesan r" />
+                <FormField
+                  label="Full Name*"
+                  name="fullName"
+                  defaultValue="Vengadesan r"
+                  required
+                />
                 <FormField
                   label="Email*"
+                  name="email"
                   defaultValue="kenzto.creative@gmail.com"
                   type="email"
+                  required
                 />
               </fieldset>
               <fieldset className="flex flex-col gap-10">
                 <legend className="sr-only">Company information</legend>
                 <FormField
                   label="Company Name"
+                  name="company"
                   defaultValue="Kenzto Creative Solutions"
                 />
                 <FormField
                   label="Phone Number*"
+                  name="phone"
                   defaultValue="+91 70105 59179"
                   type="tel"
+                  required
                 />
               </fieldset>
             </div>
 
             <FormField
               label="Message"
+              name="message"
               defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
               multiline
             />
@@ -84,30 +96,46 @@ export default function ContactPage() {
 
 function FormField({
   label,
+  name,
   defaultValue,
   type = "text",
   multiline = false,
+  required = false,
 }: {
   label: string;
+  name: string;
   defaultValue?: string;
   type?: string;
   multiline?: boolean;
+  required?: boolean;
 }) {
+  const id = useId();
+  const fieldId = `${name}-${id}`;
+
   return (
     <div className="flex flex-col gap-3">
-      <label className="font-mono text-lg tracking-[0.1em] text-foreground/90">
+      <label
+        htmlFor={fieldId}
+        className="font-mono text-lg tracking-[0.1em] text-foreground/90"
+      >
         {label}
       </label>
       {multiline ? (
         <textarea
+          id={fieldId}
+          name={name}
           defaultValue={defaultValue}
           rows={3}
+          required={required}
           className="w-full resize-none border-0 border-b border-white/20 bg-transparent pb-3 font-mono text-base text-muted-foreground outline-none focus:border-white/50"
         />
       ) : (
         <input
+          id={fieldId}
+          name={name}
           type={type}
           defaultValue={defaultValue}
+          required={required}
           className="w-full border-0 border-b border-white/20 bg-transparent pb-3 font-mono text-base text-muted-foreground outline-none focus:border-white/50"
         />
       )}
