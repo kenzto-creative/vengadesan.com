@@ -38,12 +38,16 @@ export default function ImagesPage() {
         transition={{ duration: 0.5 }}
         className="flex flex-col gap-8 pb-8 xl:gap-10"
       >
-        <header className="flex flex-wrap items-center justify-between gap-4">
+        <header className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="font-mono text-[32px] leading-[38.4px] tracking-[0.05em]">
             Images
           </h1>
 
-          <ImageFilterChips value={activeFilter} onChange={setActiveFilter} />
+          <ImageFilterChips
+            value={activeFilter}
+            onChange={setActiveFilter}
+            className="w-full sm:ml-auto sm:w-auto"
+          />
         </header>
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-10">

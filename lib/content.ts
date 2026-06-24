@@ -796,10 +796,29 @@ export type VideoListingItem = {
   id: string;
   title: string;
   image: string;
+  previewImage?: string;
   category: string;
   format: VideoFormat;
   href?: string;
 };
+
+export function getVideoListingItem(id: string) {
+  return VIDEO_LISTING.find((item) => item.id === id);
+}
+
+export function getVideoListingNeighbors(id: string) {
+  const current = getVideoListingItem(id);
+  if (!current) return { prev: null, next: null };
+
+  const sameFormat = VIDEO_LISTING.filter((item) => item.format === current.format);
+  const index = sameFormat.findIndex((item) => item.id === id);
+  if (index === -1) return { prev: null, next: null };
+
+  return {
+    prev: index > 0 ? sameFormat[index - 1] : null,
+    next: index < sameFormat.length - 1 ? sameFormat[index + 1] : null,
+  };
+}
 
 export const VIDEO_LISTING: VideoListingItem[] = [
   {
@@ -814,6 +833,7 @@ export const VIDEO_LISTING: VideoListingItem[] = [
     id: "2",
     title: "UI Walkthrough",
     image: "/images/listing-video-2-5b0c6a.png",
+    previewImage: "/images/video-short-preview-hero-11583d.png",
     category: "Design",
     format: "short",
   },
@@ -821,6 +841,7 @@ export const VIDEO_LISTING: VideoListingItem[] = [
     id: "3",
     title: "Design Process Reel",
     image: "/images/listing-video-3-113e5c.png",
+    previewImage: "/images/video-preview-hero-113e5c.png",
     category: "Portfolio",
     format: "full",
   },

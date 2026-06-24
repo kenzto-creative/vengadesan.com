@@ -31,7 +31,7 @@ export function ImagePreviewPageClient({
           <h1 className="font-mono text-[32px] leading-[38.4px] tracking-[0.05em]">
             Images
           </h1>
-          <div className="inline-flex h-12 min-w-[357px] items-center justify-between rounded-[24px] border border-white/16 bg-white/10 px-6 font-mono text-base font-light tracking-[0.1em] text-foreground backdrop-blur-[2.5px]">
+          <div className="inline-flex h-12 w-full min-w-0 max-w-full items-center justify-between rounded-[24px] border border-white/16 bg-white/10 px-6 font-mono text-base font-light tracking-[0.1em] text-foreground backdrop-blur-[2.5px] sm:w-auto sm:min-w-[280px] sm:max-w-[357px]">
             <span>All</span>
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#000D26]">
               ▾

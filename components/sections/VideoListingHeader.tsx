@@ -59,9 +59,9 @@ export function VideoListingHeader({
         Videos
       </h1>
 
-      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+      <div className="flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
         <div
-          className="flex items-center gap-2 rounded-[24px] border border-foreground/10 bg-foreground/[0.03] p-1 backdrop-blur-[2.5px] dark:border-white/10 dark:bg-white/[0.03]"
+          className="flex w-full items-center gap-2 rounded-[24px] border border-foreground/10 bg-foreground/[0.03] p-1 backdrop-blur-[2.5px] dark:border-white/10 dark:bg-white/[0.03] sm:w-auto"
           role="group"
           aria-label="Filter by video length"
         >
@@ -86,14 +86,14 @@ export function VideoListingHeader({
           })}
         </div>
 
-        <div ref={rootRef} className="relative">
+        <div ref={rootRef} className="relative w-full min-w-0 sm:w-auto sm:max-w-[357px]">
           <button
             type="button"
             aria-haspopup="listbox"
             aria-expanded={open}
             aria-label="Filter videos by category"
             onClick={() => setOpen((current) => !current)}
-            className="flex h-12 w-full min-w-[280px] max-w-[357px] items-center justify-between rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] sm:min-w-[357px]"
+            className="flex h-12 w-full min-w-0 items-center justify-between rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] sm:min-w-[280px]"
           >
             <span className="font-mono text-base font-light tracking-[0.1em]">
               {categoryFilter}

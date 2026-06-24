@@ -141,8 +141,80 @@ export function ProfileSidebar({
     </div>
   );
 
+  const iconRail = (
+    <div className="flex h-full flex-col items-center justify-between py-2">
+      <div className="flex flex-col items-center gap-8">
+        <Link
+          href="/profile"
+          className="relative h-12 w-12 overflow-hidden rounded-[32px] ring-2 ring-[#BFFFFD]/40"
+          aria-label="View profile"
+        >
+          <Image
+            src="/images/profile.png"
+            alt="Vengat R. profile photo"
+            fill
+            className="object-cover"
+            sizes="48px"
+          />
+        </Link>
+
+        <Link
+          href={minimalNav ? "/profile" : "/"}
+          aria-label="Back"
+          className="flex h-10 w-10 items-center justify-center rounded-full opacity-80 transition-opacity hover:opacity-100"
+        >
+          <Undo2 className="h-[22px] w-[22px]" strokeWidth={1.5} />
+        </Link>
+
+        {!minimalNav ? (
+          <nav aria-label="Profile sections">
+            <ul className="flex flex-col items-center gap-6">
+              {PROFILE_TABS.map(({ id, label, href }) => {
+                const Icon = TAB_ICONS[id];
+                const active = activeTab === id;
+
+                return (
+                  <li key={id}>
+                    <Link
+                      href={href}
+                      aria-label={label}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-full transition-opacity",
+                        active ? "opacity-100" : "opacity-50 hover:opacity-80"
+                      )}
+                    >
+                      <Icon className="h-[22px] w-[22px]" strokeWidth={1.5} />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        ) : null}
+      </div>
+
+      <Link
+        href={SITE.cvUrl}
+        aria-label="View CV"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-opacity hover:opacity-90"
+      >
+        <FileText className="h-5 w-5" strokeWidth={1.5} />
+      </Link>
+    </div>
+  );
+
   return (
     <>
+      <aside
+        className={cn(
+          "hidden w-[72px] shrink-0 md:flex md:flex-col lg:hidden",
+          className
+        )}
+      >
+        {iconRail}
+      </aside>
+
       <aside
         className={cn(
           "hidden w-[294px] shrink-0 lg:flex lg:flex-col",

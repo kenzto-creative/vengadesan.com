@@ -41,14 +41,14 @@ export function ImageFilterChips({
   }, [open]);
 
   return (
-    <div ref={rootRef} className={cn("relative", className)}>
+    <div ref={rootRef} className={cn("relative w-full min-w-0 sm:w-auto sm:max-w-[357px]", className)}>
       <button
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Filter images by category"
         onClick={() => setOpen((current) => !current)}
-        className="flex h-12 w-full min-w-[280px] max-w-[357px] items-center justify-between rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] sm:min-w-[357px]"
+        className="flex h-12 w-full min-w-0 items-center justify-between rounded-[24px] border border-foreground/15 bg-foreground/[0.03] px-6 backdrop-blur-[2.5px] transition-colors hover:bg-foreground/[0.06] dark:border-white/16 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] sm:min-w-[280px]"
       >
         <span className="font-mono text-base font-light tracking-[0.1em]">
           {value}

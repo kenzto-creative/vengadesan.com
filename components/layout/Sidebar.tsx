@@ -63,7 +63,7 @@ export function Sidebar({ className, compact = false }: SidebarProps) {
             onClick={() => setMobileOpen(false)}
             className="flex flex-col gap-0.5 py-1.5"
           >
-            <span className="font-mono text-[32px] font-normal leading-[38.4px] tracking-[0.1em] text-foreground">
+            <span className="font-mono text-2xl font-normal leading-tight tracking-[0.1em] text-foreground sm:text-[32px] sm:leading-[38.4px]">
               {SITE.name}
             </span>
             <span className="font-mono text-sm leading-[19.6px] text-muted-foreground">

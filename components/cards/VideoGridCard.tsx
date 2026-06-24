@@ -14,15 +14,26 @@ type VideoGridCardProps = {
 };
 
 export function VideoGridCard({ item, index = 0, className }: VideoGridCardProps) {
+  const isShort = item.format === "short";
+
   const content = (
     <>
-      <div className="relative aspect-[510/286] overflow-hidden">
+      <div
+        className={cn(
+          "relative overflow-hidden",
+          isShort ? "aspect-[343/612]" : "aspect-[510/286]"
+        )}
+      >
         <Image
           src={item.image}
           alt={item.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-          sizes="(max-width: 768px) 100vw, 510px"
+          sizes={
+            isShort
+              ? "(max-width: 768px) 100vw, 343px"
+              : "(max-width: 768px) 100vw, 510px"
+          }
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover:bg-black/5">
           <span className="flex h-12 w-[68px] items-center justify-center rounded-lg bg-[#FF0033] shadow-lg transition-transform group-hover:scale-105">
@@ -40,23 +51,13 @@ export function VideoGridCard({ item, index = 0, className }: VideoGridCardProps
       transition={{ delay: index * 0.05 }}
       className={className}
     >
-      {item.href ? (
-        <Link
-          href={item.href}
-          className="group relative block overflow-hidden rounded-[36px] bg-card"
-          aria-label={`Play ${item.title}`}
-        >
-          {content}
-        </Link>
-      ) : (
-        <button
-          type="button"
-          className="group relative block w-full overflow-hidden rounded-[36px] bg-card text-left"
-          aria-label={`Play ${item.title}`}
-        >
-          {content}
-        </button>
-      )}
+      <Link
+        href={item.href ?? `/videos/${item.id}`}
+        className="group relative block overflow-hidden rounded-[36px] bg-card"
+        aria-label={`Play ${item.title}`}
+      >
+        {content}
+      </Link>
     </motion.article>
   );
 }

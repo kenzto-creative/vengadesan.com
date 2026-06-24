@@ -59,6 +59,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-azeret-mono), ui-monospace, monospace;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 ::selection {

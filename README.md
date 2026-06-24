@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 # Vengat R. — Portfolio
 
-Production-ready personal portfolio built from the [Saphal AI Figma design](https://www.figma.com/design/vdLoLVNlxjnxhRNfIoreVF/Saphal-AI), implementing the bento-grid home layout and inner pages (About, Stack, Projects, Tutorials, Contact).
+Production-ready personal portfolio built from the [Saphal AI Figma design](https://www.figma.com/design/vdLoLVNlxjnxhRNfIoreVF/Saphal-AI), implementing the bento-grid home layout and all 24 Page 5 screens (About, Stack, Projects, Tutorials, Contact, Dashboard, Profile, Mega Menu, Images/Videos, and more).
 
 ## Tech Stack
 
-- **Next.js 15+** (App Router)
+- **Next.js 16** (App Router)
 - **TypeScript**
 - **Tailwind CSS v4**
 - **Framer Motion**
@@ -25,7 +24,7 @@ Production-ready personal portfolio built from the [Saphal AI Figma design](http
 ### Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/kenzto-creative/vengadesan.com.git
 cd vengadesan.com
 npm install
 npm run dev
@@ -40,29 +39,40 @@ npm run build
 npm start
 ```
 
+## Routes
+
+| Route | Figma screen |
+|-------|----------------|
+| `/` | Home (Black / White / Menu Close) |
+| `/dashboard` | Dashboard |
+| `/profile` | Profile (Bio, Image flip) |
+| `/profile/objective` | Profile (Objective) |
+| `/profile/post` | Profile (Post-Image) |
+| `/profile/post/video` | Profile (Post-Video) |
+| `/profile/friends` | Profile (Friends) |
+| `/menu` | Mega Menu |
+| `/images`, `/images/[id]` | Images Listing, Image Preview |
+| `/videos`, `/videos/[id]` | Video Listing, Full/Short Preview |
+| `/about` | About Me |
+| `/stack` | Stack |
+| `/projects`, `/projects/[slug]` | Projects Listing, Project Landing |
+| `/tutorials`, `/tutorials/[slug]` | Tutorials Listing, Tutorial Landing |
+| `/contact` | Contact |
+| `/cv` | CV preview + download |
+
 ## Project Structure
 
 ```
-app/
-  page.tsx              # Home — bento grid
-  about/page.tsx
-  stack/page.tsx
-  projects/page.tsx
-  tutorials/page.tsx
-  contact/page.tsx
+app/                    # App Router pages
 components/
   ui/                   # Button, ArrowButton
-  layout/               # Sidebar, Header, MainLayout
-  cards/                # Bento cards + BentoGrid
-  ThemeToggle.tsx
-  SocialLinks.tsx
-  Globe.tsx
+  layout/               # Sidebar, Header, MainLayout, MediaLayout
+  cards/                # Bento, grid, and listing cards
+  sections/             # Page sections and lightboxes
 lib/
-  constants.ts          # Nav, social, stack data
-  utils.ts
+  constants.ts          # Nav, social, site config
+  content.ts            # Listing data, filters, helpers
 hooks/
-  useClock.ts
-types/
 public/images/          # Figma-exported assets
 ```
 
@@ -83,40 +93,18 @@ public/images/          # Figma-exported assets
 
 ## Deployment (Vercel)
 
-1. Push the repo to GitHub/GitLab/Bitbucket.
+1. Push the repo to GitHub.
 2. Import the project at [vercel.com/new](https://vercel.com/new).
 3. Framework preset: **Next.js** (auto-detected).
-4. Deploy — no extra env vars required for the static portfolio.
-
-```bash
-# Optional: deploy via CLI
-npm i -g vercel
-vercel
-```
+4. Deploy — no extra env vars required.
 
 ## Customization
 
-- Update profile copy in `lib/constants.ts`
+- Update profile copy in `lib/constants.ts` and `lib/content.ts`
 - Replace images in `public/images/`
 - Add your CV as `public/cv.pdf`
 - Adjust social URLs in `lib/constants.ts`
 
-## Accessibility
-
-- Semantic landmarks (`nav`, `main`, `header`, `section`)
-- ARIA labels on icon-only controls
-- Keyboard-navigable links and forms
-- Sufficient contrast on primary UI elements
-
-## Performance
-
-- `next/image` for optimized images
-- Dynamic import for Three.js globe
-- Framer Motion entrance animations with staggered delays
-
 ## License
 
 Private portfolio — all rights reserved.
-=======
-# vengadesan.com
->>>>>>> 71f7c660dbe71b174ee48fe48078d431e7c6c27d

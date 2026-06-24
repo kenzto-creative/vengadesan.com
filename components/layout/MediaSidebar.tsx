@@ -127,6 +127,70 @@ export function MediaSidebar({ activeTab, className }: MediaSidebarProps) {
     <>
       <aside
         className={cn(
+          "hidden w-[72px] shrink-0 md:flex md:flex-col lg:hidden",
+          className
+        )}
+      >
+        <div className="flex h-full flex-col items-center justify-between py-2">
+          <div className="flex flex-col items-center gap-8">
+            <Link
+              href="/profile"
+              className="relative h-12 w-12 overflow-hidden rounded-[32px] ring-2 ring-[#BFFFFD]/40"
+              aria-label="View profile"
+            >
+              <Image
+                src="/images/profile.png"
+                alt="Vengat R. profile photo"
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
+            </Link>
+
+            <Link
+              href="/menu"
+              aria-label="Back to menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full opacity-80 transition-opacity hover:opacity-100"
+            >
+              <Undo2 className="h-[22px] w-[22px]" strokeWidth={1.5} />
+            </Link>
+
+            <nav aria-label="Media sections">
+              <ul className="flex flex-col items-center gap-6">
+                {MEDIA_TABS.map(({ id, href, icon: Icon, label }) => {
+                  const active = activeTab === id;
+                  return (
+                    <li key={id}>
+                      <Link
+                        href={href}
+                        aria-label={label}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "flex h-10 w-10 items-center justify-center rounded-full transition-opacity",
+                          active ? "opacity-100" : "opacity-50 hover:opacity-80"
+                        )}
+                      >
+                        <Icon className="h-[22px] w-[22px]" strokeWidth={1.5} />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </div>
+
+          <Link
+            href={SITE.cvUrl}
+            aria-label="View CV"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-opacity hover:opacity-90"
+          >
+            <FileText className="h-5 w-5" strokeWidth={1.5} />
+          </Link>
+        </div>
+      </aside>
+
+      <aside
+        className={cn(
           "hidden w-[294px] shrink-0 lg:flex lg:flex-col",
           className
         )}

@@ -57,7 +57,13 @@ export default function VideosPage() {
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-10">
           <div className="flex flex-col gap-8">
             {visibleVideos.length > 0 ? (
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div
+                className={
+                  formatFilter === "short"
+                    ? "grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
+                    : "grid gap-3 sm:grid-cols-2"
+                }
+              >
                 {visibleVideos.map((item, index) => (
                   <VideoGridCard key={item.id} item={item} index={index} />
                 ))}
